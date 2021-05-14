@@ -75,7 +75,7 @@ const ChangePass = ({ match }) => {
           const status = res.status;
           if (status === 200 || 201) {
             alert("You have successfully changed your password");
-            history.push("/login");
+            history.push("/admin/login");
           }
         })
         .catch((er) => {

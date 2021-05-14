@@ -17,29 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-function Report() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Report an Issue with the Website "}
-      <Link color="inherit" to="/report">
-        Here
-      </Link>{" "}
-    </Typography>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/login">
-        Elective Management System
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright, Report } from "./Footer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -75,29 +53,29 @@ const ForgotPass = () => {
     initialValues,
     validationSchema: ForgotPassValidator,
     onSubmit: (body) => {
-        axios
-          .post("/auth/forgotpassword", body, {
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-          .then((res) => {
-            const status = res.status;
+      axios
+        .post("/auth/forgotpassword", body, {
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+        .then((res) => {
+          const status = res.status;
 
-            if (status === 200 || 201) {
-              alert("Reset Password link sent to your email.");
+          if (status === 200 || 201) {
+            alert("Reset Password link sent to your email.");
 
-              history.push("/login");
-            }
-          })
-          .catch((er) => {
-            const status = er.response.status;
-            const errData = er.response.data;
-            document.getElementById("forgotpassword-failure").style.visibility =
-              "visible";
-            console.log("response error code", status);
-            setError(errData);
-          });
+            history.push("/admin/login");
+          }
+        })
+        .catch((er) => {
+          const status = er.response.status;
+          const errData = er.response.data;
+          document.getElementById("forgotpassword-failure").style.visibility =
+            "visible";
+          console.log("response error code", status);
+          setError(errData);
+        });
     },
   });
 
@@ -155,7 +133,7 @@ const ForgotPass = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/login" variant="body2">
+              <Link to="/admin/login" variant="body2">
                 Remember your Password? Sign In
               </Link>
             </Grid>

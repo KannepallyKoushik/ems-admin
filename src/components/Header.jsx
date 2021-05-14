@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 });
 
 const navLinks = [
-  { title: `Login`, path: `/login` },
+  { title: `Login`, path: `/admin/login` },
   { title: `Report`, path: `/report` }
 ];
 

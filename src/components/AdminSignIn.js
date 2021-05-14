@@ -15,40 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-function StudentLogin() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" to="/login">
-        Sign In
-      </Link>{" "}
-      {" as a Student"}
-    </Typography>
-  );
-}
-
-function Report() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Report an Issue with the Website "}
-      <Link color="inherit" to="/report">
-        Here
-      </Link>{" "}
-    </Typography>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/login">
-        Elective Management System
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright, Report } from "./Footer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -90,30 +57,29 @@ const AdminSignIn = ({ setAuth }) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-      const body = { email, password, role: "admin" };
-      axios
-        .post("/auth/login", body, {
-          headers: {
-            "Content-type": "application/json",
-          },
-        })
-        .then((res) => {
-          const parseRes = res.data;
-          if (parseRes.token) {
-            localStorage.setItem("token", parseRes.token);
-            setAuth(true);
-            toast.success("LoggedIn Successfully");
-          }
-        })
-        .catch((er) => {
-          setAuth(false);
-          const status = er.response.status;
-          const errData = er.response.data;
-          document.getElementById("signup-failure1").style.visibility =
-            "visible";
-          console.log("response error code", status);
-          setError(errData);
-        });
+    const body = { email, password, role: "admin" };
+    axios
+      .post("/auth/login", body, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        const parseRes = res.data;
+        if (parseRes.token) {
+          localStorage.setItem("token", parseRes.token);
+          setAuth(true);
+          toast.success("LoggedIn Successfully");
+        }
+      })
+      .catch((er) => {
+        setAuth(false);
+        const status = er.response.status;
+        const errData = er.response.data;
+        document.getElementById("signup-failure1").style.visibility = "visible";
+        console.log("response error code", status);
+        setError(errData);
+      });
   };
 
   useEffect(() => {
@@ -125,9 +91,6 @@ const AdminSignIn = ({ setAuth }) => {
 
   return (
     <div className={classes.body}>
-      <Box mt={8}>
-        <StudentLogin />
-      </Box>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>

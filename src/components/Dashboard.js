@@ -3,23 +3,36 @@ import { toast } from "react-toastify";
 import "../App.css";
 import axios from "../axios";
 
-function AdminDash(props) {
-  return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <h5>Welcome {props.name}</h5>
-    </div>
-  );
-}
+import Grid from "@material-ui/core/Grid";
+import Image from "material-ui-image";
+import { Container } from "@material-ui/core";
 
-function StudentDash(props) {
+const PageNotFound = () => {
   return (
-    <div>
-      <h1>Student Dashboard</h1>
-      <h5>Welcome {props.name}</h5>
+    <div id="wrapper">
+      <Container maxWidth="xl">
+        <Grid container>
+          <Grid
+            item
+            xs={7}
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: "85vh" }}
+          >
+            <h1>Oops!!</h1>
+            <h2>You are not an Admin</h2>
+          </Grid>
+          <Grid item xs={5} style={{ paddingTop: "50px", paddingLeft: "30px" }}>
+            <Image src="https://i.imgur.com/qIufhof.png" />
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
-}
+};
 
 const Dashboard = ({ setAuth }) => {
   const [role, setRole] = useState("");
@@ -35,49 +48,43 @@ const Dashboard = ({ setAuth }) => {
       console.error(err.message);
     }
   };
+  function AdminDash() {
+    return (
+      <div>
+        <h1>Admin Dashboard</h1>
+        <h5>Welcome {username}</h5>
+        <button onClick={(e) => logout(e)} className="btn btn-primary">
+          Logout
+        </button>
+      </div>
+    );
+  }
 
   const getData = async () => {
-      axios
-        .post(
-          "/dashboard/",
-          { dummybody: "dummy" },
-          {
-            headers: { token: localStorage.token },
-            "Content-type": "application/json",
-          }
-        )
-        .then((res) => {
-          const parseRes = res.data;
-          setRole(parseRes.user_role);
-          setUsername(parseRes.username);
-        })
-        .catch((er) => {
-          console.log(er.response.data);
-        });
+    axios
+      .post(
+        "/dashboard/",
+        { dummybody: "dummy" },
+        {
+          headers: { token: localStorage.token },
+          "Content-type": "application/json",
+        }
+      )
+      .then((res) => {
+        const parseRes = res.data;
+        setRole(parseRes.user_role);
+        setUsername(parseRes.username);
+      })
+      .catch((er) => {
+        console.log(er.response.data);
+      });
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  function AuthorizationDash(props) {
-    const user_role = props.role;
-    if (user_role === "admin") {
-      return <AdminDash name={username} />;
-    } else if (user_role === "student") {
-      return <StudentDash name={username} />;
-    }
-    return <div></div>;
-  }
-
-  return (
-    <div>
-      <AuthorizationDash role={role} />
-      <button onClick={(e) => logout(e)} className="btn btn-primary">
-        Logout
-      </button>
-    </div>
-  );
+  return role === "admin" ? <AdminDash /> : <PageNotFound />;
 };
 
 export default Dashboard;

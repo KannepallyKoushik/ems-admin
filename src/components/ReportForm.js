@@ -7,21 +7,9 @@ import axios from "../axios";
 import ReportValidator from "./Validators/ReportValidator";
 import Header from "./Header";
 
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/login">
-        Elective Management System
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright } from "./Footer";
 
 export default function ReportForm() {
   const initialValues = {
@@ -33,28 +21,28 @@ export default function ReportForm() {
     initialValues,
     validationSchema: ReportValidator,
     onSubmit: (body) => {
-        axios
-          .post("/auth/report", body, {
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-          .then((res) => {
-            const data = res.data;
-            const status = res.status;
-            console.log(status);
-            console.log(data);
-            if (status === 200 || 201) {
-              document.getElementById("form-message-success").style.visibility =
-                "visible";
-            }
-          })
-          .catch((err) => {
-            const status = err.response.data;
-            console.log(status);
-            document.getElementById("form-message-failure").style.visibility =
+      axios
+        .post("/auth/report", body, {
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+        .then((res) => {
+          const data = res.data;
+          const status = res.status;
+          console.log(status);
+          console.log(data);
+          if (status === 200 || 201) {
+            document.getElementById("form-message-success").style.visibility =
               "visible";
-          });
+          }
+        })
+        .catch((err) => {
+          const status = err.response.data;
+          console.log(status);
+          document.getElementById("form-message-failure").style.visibility =
+            "visible";
+        });
     },
   });
 
@@ -154,7 +142,8 @@ export default function ReportForm() {
                   Your message was sent, thank you!
                 </div>
                 <div>
-                  Already have an account? <Link to="/login">Sign In</Link>
+                  Already have an account?{" "}
+                  <Link to="/admin/login">Sign In</Link>
                 </div>
               </div>
             </div>
