@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,47 +9,45 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 import axios from "./axios";
+import { AuthContext } from "./Contexts/AuthContext";
+
 // Components
 import Home from "./components/Home";
-import Dashboard from "./components/Dashboard";
-import AdminSignIn from "./components/AdminSignIn";
-import ReportForm from "./components/ReportForm";
-import ChangePass from "./components/ChangePass";
-import ForgotPass from "./components/ForgotPass";
-import VerifyEmail from "./components/VerifyEmail";
+import Dashboard from "./components/DashboardComponents/Dashboard";
+import AdminSignIn from "./components/AuthComponents/AdminSignIn";
+import ReportForm from "./components/AuthComponents/ReportForm";
+import ChangePass from "./components/AuthComponents/ChangePass";
+import ForgotPass from "./components/AuthComponents/ForgotPass";
+import VerifyEmail from "./components/AuthComponents/VerifyEmail";
 import PageNotFound from "./components/404-page";
 
 function App() {
-  const checkAuthenticated = async () => {
-    axios
-      .post(
-        "/auth/isverify",
-        { dummybody: "dummy" },
-        {
-          headers: { token: localStorage.token },
-          "Content-type": "application/json",
-        }
-      )
-      .then((res) => {
-        const parseRes = res.data;
-        parseRes === true
-          ? setIsAuthenticated(true)
-          : setIsAuthenticated(false);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  };
+  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
+    const checkAuthenticated = async () => {
+      axios
+        .post(
+          "/auth/isverify",
+          { dummybody: "dummy" },
+          {
+            headers: { token: localStorage.token },
+            "Content-type": "application/json",
+          }
+        )
+        .then((res) => {
+          const parseRes = res.data;
+          parseRes === true
+            ? setIsAuthenticated(true)
+            : setIsAuthenticated(false);
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    };
     checkAuthenticated();
-  }, []);
+  }, [setIsAuthenticated]);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const setAuth = (boolean) => {
-    setIsAuthenticated(boolean);
-  };
   return (
     <Fragment>
       <Router>
@@ -78,23 +76,15 @@ function App() {
           <Route
             exact
             path="/admin/login"
-            render={(props) =>
-              !isAuthenticated ? (
-                <AdminSignIn {...props} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/dashboard" />
-              )
+            render={() =>
+              !isAuthenticated ? <AdminSignIn /> : <Redirect to="/dashboard" />
             }
           />
           <Route
             exact
             path="/dashboard"
-            render={(props) =>
-              isAuthenticated ? (
-                <Dashboard {...props} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/admin/login" />
-              )
+            render={() =>
+              isAuthenticated ? <Dashboard /> : <Redirect to="/admin/login" />
             }
           />
           <Route component={PageNotFound} />

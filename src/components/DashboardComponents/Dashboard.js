@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import "../App.css";
-import axios from "../axios";
+import "../../App.css";
+import axios from "../../axios";
 
 import Grid from "@material-ui/core/Grid";
 import Image from "material-ui-image";
 import { Container } from "@material-ui/core";
+
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const PageNotFound = () => {
   return (
@@ -34,7 +36,8 @@ const PageNotFound = () => {
   );
 };
 
-const Dashboard = ({ setAuth }) => {
+const Dashboard = () => {
+  const [, setIsAuthenticated] = useContext(AuthContext);
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
 
@@ -42,7 +45,7 @@ const Dashboard = ({ setAuth }) => {
     e.preventDefault();
     try {
       localStorage.removeItem("token");
-      setAuth(false);
+      setIsAuthenticated(false);
       toast.success("Logout successfully");
     } catch (err) {
       console.error(err.message);

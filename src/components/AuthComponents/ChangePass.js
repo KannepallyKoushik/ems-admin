@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 
-import "../App.css";
-import axios from "../axios";
-import ForgotPassValidator from "./Validators/ForgotPassValidator";
+import "../../App.css";
+import axios from "../../axios";
+import ChangePassValidator from "../Validators/ChangePassValidator";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -17,18 +17,25 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { Copyright, Report } from "./Footer";
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" to="/login">
+        Elective Management System
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(5),
-    borderRadius: 20,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "#f0f0f5",
-    paddingTop: "10px",
-    paddingBottom: "50px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -43,35 +50,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ForgotPass = () => {
+const ChangePass = ({ match }) => {
   const [error, setError] = useState("");
   const initialValues = {
-    email: "",
+    password: "",
+    confirmpass: "",
   };
   const history = useHistory();
   const formik = useFormik({
     initialValues,
-    validationSchema: ForgotPassValidator,
+    validationSchema: ChangePassValidator,
     onSubmit: (body) => {
+      const reqBody = {
+        encryptedID: match.params.id,
+        password: body.password,
+      };
       axios
-        .post("/auth/forgotpassword", body, {
+        .post("/auth/changePassword", reqBody, {
           headers: {
             "Content-type": "application/json",
           },
         })
         .then((res) => {
           const status = res.status;
-
           if (status === 200 || 201) {
-            alert("Reset Password link sent to your email.");
-
+            alert("You have successfully changed your password");
             history.push("/admin/login");
           }
         })
         .catch((er) => {
           const status = er.response.status;
           const errData = er.response.data;
-          document.getElementById("forgotpassword-failure").style.visibility =
+          document.getElementById("changepassword-failure").style.visibility =
             "visible";
           console.log("response error code", status);
           setError(errData);
@@ -82,7 +92,7 @@ const ForgotPass = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    document.getElementById("forgotpassword-failure").style.visibility =
+    document.getElementById("changepassword-failure").style.visibility =
       "hidden";
   }, []);
 
@@ -90,35 +100,48 @@ const ForgotPass = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <br></br>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <br></br>
-        <br></br>
         <Typography component="h1" variant="h5">
-          Get a Password Reset Link
+          Change Password
         </Typography>
-        <div id="forgotpassword-failure">{error}</div>
-        <br></br>
+        <div id="changepassword-failure">{error}</div>
         <br></br>
         <form onSubmit={formik.handleSubmit}>
-          <Grid>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                style={{ width: 310 }}
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={formik.values.email}
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={formik.values.password}
                 onChange={formik.handleChange}
               />
-              {formik.errors.email && formik.touched.email && (
-                <p class="errors">{formik.errors.email}</p>
+              {formik.errors.password && formik.touched.password && (
+                <p class="errors">{formik.errors.password}</p>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmpass"
+                label="Confirm Password"
+                type="password"
+                id="confirmpass"
+                autoComplete="current-password"
+                value={formik.values.confirmpass}
+                onChange={formik.handleChange}
+              />
+              {formik.errors.confirmpass && formik.touched.confirmpass && (
+                <p class="errors">{formik.errors.confirmpass}</p>
               )}
             </Grid>
           </Grid>
@@ -129,11 +152,12 @@ const ForgotPass = () => {
             color="primary"
             className={classes.submit}
           >
-            Submit
+            Change Password
           </Button>
+
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/admin/login" variant="body2">
+              <Link to="/login" variant="body2">
                 Remember your Password? Sign In
               </Link>
             </Grid>
@@ -141,11 +165,10 @@ const ForgotPass = () => {
         </form>
       </div>
       <Box mt={5}>
-        <Report />
         <Copyright />
       </Box>
     </Container>
   );
 };
 
-export default ForgotPass;
+export default ChangePass;

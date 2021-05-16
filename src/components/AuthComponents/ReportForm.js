@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 
-import "../App.css";
-import axios from "../axios";
-import ReportValidator from "./Validators/ReportValidator";
-import Header from "./Header";
+import "../../App.css";
+import axios from "../../axios";
+import ReportValidator from "../Validators/ReportValidator";
+import Header from "../Header";
 
 import Box from "@material-ui/core/Box";
 

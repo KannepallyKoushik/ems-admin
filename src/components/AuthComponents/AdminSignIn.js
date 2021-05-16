@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "../axios";
-import "../App.css";
+import axios from "../../axios";
+import "../../App.css";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -15,40 +15,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-function AdminLogin() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" to="/admin/login">
-        Sign In
-      </Link>{" "}
-      {" as Admininstrator"}
-    </Typography>
-  );
-}
-
-function Report() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Report an Issue with the Website "}
-      <Link color="inherit" to="/report">
-        Here
-      </Link>{" "}
-    </Typography>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/">
-        Elective Management System
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright, Report } from "./Footer";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -76,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ setAuth }) => {
+const AdminSignIn = () => {
+  const [, setIsAuthenticated] = useContext(AuthContext);
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     email: "",
@@ -90,30 +59,29 @@ const SignIn = ({ setAuth }) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-      const body = { email, password, role: "student" };
-      axios
-        .post("/auth/login", body, {
-          headers: {
-            "Content-type": "application/json",
-          },
-        })
-        .then((res) => {
-          const parseRes = res.data;
-          if (parseRes.token) {
-            localStorage.setItem("token", parseRes.token);
-            setAuth(true);
-            toast.success("LoggedIn Successfully");
-          }
-        })
-        .catch((er) => {
-          setAuth(false);
-          const status = er.response.status;
-          const errData = er.response.data;
-          document.getElementById("signup-failure1").style.visibility =
-            "visible";
-          console.log("response error code", status);
-          setError(errData);
-        });
+    const body = { email, password, role: "admin" };
+    axios
+      .post("/auth/login", body, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        const parseRes = res.data;
+        if (parseRes.token) {
+          localStorage.setItem("token", parseRes.token);
+          setIsAuthenticated(true);
+          toast.success("LoggedIn Successfully");
+        }
+      })
+      .catch((er) => {
+        setIsAuthenticated(false);
+        const status = er.response.status;
+        const errData = er.response.data;
+        document.getElementById("signup-failure1").style.visibility = "visible";
+        console.log("response error code", status);
+        setError(errData);
+      });
   };
 
   useEffect(() => {
@@ -125,9 +93,6 @@ const SignIn = ({ setAuth }) => {
 
   return (
     <div className={classes.body}>
-      <Box mt={8}>
-        <AdminLogin />
-      </Box>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -135,7 +100,7 @@ const SignIn = ({ setAuth }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign In as Student
+            Sign In as Administrator
           </Typography>
           <div id="signup-success">User Registered Successfully!</div>
           <div id="signup-failure1">{error}</div>
@@ -182,9 +147,6 @@ const SignIn = ({ setAuth }) => {
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link to="/register">{"Don't have an account? Sign Up"}</Link>
-              </Grid>
             </Grid>
           </form>
         </div>
@@ -198,4 +160,4 @@ const SignIn = ({ setAuth }) => {
   );
 };
 
-export default SignIn;
+export default AdminSignIn;
