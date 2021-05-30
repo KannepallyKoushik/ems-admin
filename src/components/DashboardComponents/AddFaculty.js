@@ -40,6 +40,7 @@ const AddFaculty = () => {
   };
 
   const submitForm = (e) => {
+    e.preventDefault();
     const body = inputs;
     axios
       .post("/dashboard/admin/addFaculty", body, {
@@ -58,11 +59,13 @@ const AddFaculty = () => {
         const status = err.response.data;
         console.log(status);
       });
+
     setInputs({
       facName: "",
       depID: "",
       facEmail: "",
     });
+    getData();
   };
 
   const logout = async (e) => {
@@ -164,6 +167,7 @@ const AddFaculty = () => {
       })
       .then((res) => {
         const parseRes = res.data;
+        console.log(parseRes);
         setDept(parseRes);
       })
       .catch((er) => {

@@ -13,6 +13,9 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Container } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import TextField from "@material-ui/core/TextField";
+import DateFnsUtils from "@date-io/date-fns";
 
 import { AuthContext } from "../../Contexts/AuthContext";
 import { UserContext } from "../../Contexts/UserContext";
@@ -23,8 +26,8 @@ const AddBatch = () => {
   const [, setIsAuthenticated] = useContext(AuthContext);
   const [, setUser] = useContext(UserContext);
 
-  const [batchin, setBatchIn] = React.useState("");
-  const [batchout, setBatchOut] = React.useState("");
+  const [batchIn, setBatchIn] = React.useState(new Date());
+  const [batchOut, setBatchOut] = React.useState(new Date());
 
   const logout = async (e) => {
     try {
@@ -38,39 +41,89 @@ const AddBatch = () => {
     }
   };
 
+  const submitForm = (e) => {
+    e.preventDefault();
+
+    const body = {
+      batchIn: batchIn.getFullYear(),
+      batchOut: batchOut.getFullYear(),
+    };
+
+    axios
+      .post("/dashboard/admin/addBatch", body, {
+        headers: {
+          token: localStorage.token,
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        const data = res.data;
+        const status = res.status;
+        console.log(status);
+        alert(data);
+      })
+      .catch((err) => {
+        const status = err.response.data;
+        console.log(status);
+      });
+
+    setBatchIn(new Date());
+    setBatchOut(new Date());
+  };
+
   function Batch() {
     return (
       <div class="batch-component">
-        <CssBaseline />
-        <Main logout={logout} />
-        <Container className="boxed" maxWidth="md">
-          <br></br>
-          <br></br>
-          <h1 align="center">Batch Details</h1>
-          <br></br>
-          <h5 align="center">
-            <em>Give Admission and Passout Year of New Batch</em>
-          </h5>
-          <Grid xs={12} container direction="column" className="batch">
-            <InputLabel id="batchin">Batch In</InputLabel>
+        <form>
+          <CssBaseline />
+          <Main logout={logout} />
+          <Container className="boxed" maxWidth="md">
+            <br></br>
+            <br></br>
+            <h1 align="center">Batch Details</h1>
+            <br></br>
+            <h5 align="center">
+              <em>Give Admission and Passout Year of New Batch</em>
+            </h5>
+            <Grid xs={12} container direction="column" className="batch">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <InputLabel id="batchin">Batch In</InputLabel>
+                <DatePicker
+                  disableFuture
+                  openTo="year"
+                  views={["year"]}
+                  value={batchIn}
+                  onChange={(date) => setBatchIn(date)}
+                  renderInput={(props) => <TextField {...props} />}
+                />
 
+                <br></br>
+                <br></br>
+                <InputLabel id="batchout">Batch out</InputLabel>
+                <DatePicker
+                  openTo="year"
+                  views={["year"]}
+                  value={batchOut}
+                  onChange={(date) => setBatchOut(date)}
+                  renderInput={(props) => <TextField {...props} />}
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Container className="button" align="center" maxWidth="sm">
+              <br></br>
+              <Button
+                variant="contained"
+                color="primary"
+                className="submitbutton"
+                onClick={submitForm}
+              >
+                Add Batch
+              </Button>
+            </Container>
             <br></br>
             <br></br>
-            <InputLabel id="batchout">Batch out</InputLabel>
-          </Grid>
-          <Container className="button" align="center" maxWidth="sm">
-            <br></br>
-            <Button
-              variant="contained"
-              color="primary"
-              className="submitbutton"
-            >
-              Add Batch
-            </Button>
           </Container>
-          <br></br>
-          <br></br>
-        </Container>
+        </form>
       </div>
     );
   }
