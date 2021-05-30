@@ -1,93 +1,101 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import "../../App.css";
-import axios from "../../axios";
+import DayPicker from "react-day-picker";
 
-import Grid from "@material-ui/core/Grid";
-import Image from "material-ui-image";
-import { Container } from "@material-ui/core";
+import "react-day-picker/lib/style.css";
+import "../../App.css";
+import "./Styles.css";
+
+import axios from "../../axios";
+import Main from "./Main";
+import NotAdmin from "./NotAdmin";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { AuthContext } from "../../Contexts/AuthContext";
-
-const PageNotFound = () => {
-  return (
-    <div id="wrapper">
-      <Container maxWidth="xl">
-        <Grid container>
-          <Grid
-            item
-            xs={7}
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "85vh" }}
-          >
-            <h1>Oops!!</h1>
-            <h2>You are not an Admin</h2>
-          </Grid>
-          <Grid item xs={5} style={{ paddingTop: "50px", paddingLeft: "30px" }}>
-            <Image src="https://i.imgur.com/qIufhof.png" />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
+import { UserContext } from "../../Contexts/UserContext";
+import { AuthorizationContext } from "../../Contexts/AuthorizationContext";
 
 const Dashboard = () => {
+  const [authorised, setauthorised] = useContext(AuthorizationContext);
   const [, setIsAuthenticated] = useContext(AuthContext);
-  const [role, setRole] = useState("");
-  const [username, setUsername] = useState("");
+  const [, setUser] = useContext(UserContext);
 
   const logout = async (e) => {
-    e.preventDefault();
     try {
       localStorage.removeItem("token");
+      setUser("");
+      setauthorised(false);
       setIsAuthenticated(false);
       toast.success("Logout successfully");
     } catch (err) {
       console.error(err.message);
     }
   };
+
   function AdminDash() {
     return (
-      <div>
-        <h1>Admin Dashboard</h1>
-        <h5>Welcome {username}</h5>
-        <button onClick={(e) => logout(e)} className="btn btn-primary">
-          Logout
-        </button>
+      <div className="AdminDash">
+        <CssBaseline />
+        <Main logout={logout} className="navbar" />
+        <h4 class="amma-quote">
+          <i>
+            "ENLIGHTENMENT means the ability to RECOGNISE ONESELF in ALL living
+            creatures"
+          </i>{" "}
+          - AMMA
+        </h4>
+        <div class="video-container">
+          <h5 class="video-title">EMS-Admin Portal Walkthrough Video</h5>
+          <div class="dash-container">
+            <br></br>
+            <div class="video">
+              <iframe
+                width="720"
+                height="420"
+                align="center"
+                title="Walkthrough Video"
+                src="https://www.youtube.com/embed/WjwEh15M5Rw"
+              ></iframe>
+            </div>
+
+            <div class="calender">
+              <h5>Calendar:</h5>
+              <DayPicker />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  const getData = async () => {
-    axios
-      .post(
-        "/dashboard/",
-        { dummybody: "dummy" },
-        {
+  useEffect(() => {
+    const getData = async () => {
+      axios
+        .get("/dashboard/admin/", {
           headers: { token: localStorage.token },
           "Content-type": "application/json",
-        }
-      )
-      .then((res) => {
-        const parseRes = res.data;
-        setRole(parseRes.user_role);
-        setUsername(parseRes.username);
-      })
-      .catch((er) => {
-        console.log(er.response.data);
-      });
-  };
-
-  useEffect(() => {
+        })
+        .then((res) => {
+          const stringRes = JSON.stringify(res.data);
+          setauthorised(true);
+          setUser(stringRes);
+        })
+        .catch((er) => {
+          console.log(er.response);
+          setauthorised(false);
+          localStorage.removeItem("token");
+          setUser("");
+          setauthorised(false);
+          setTimeout(function () {
+            setIsAuthenticated(false);
+          }, 2000);
+        });
+    };
     getData();
-  }, []);
+  }, [setUser, setIsAuthenticated, setauthorised]);
 
-  return role === "admin" ? <AdminDash /> : <PageNotFound />;
+  return authorised ? <AdminDash /> : <NotAdmin />;
 };
 
 export default Dashboard;
