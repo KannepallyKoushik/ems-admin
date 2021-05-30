@@ -59,9 +59,9 @@ const AdminSignIn = () => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    const body = { email, password, role: "admin" };
+    const body = { email, password };
     axios
-      .post("/auth/login", body, {
+      .post("/auth/admin/login", body, {
         headers: {
           "Content-type": "application/json",
         },
@@ -80,6 +80,7 @@ const AdminSignIn = () => {
         const errData = er.response.data;
         document.getElementById("signup-failure1").style.visibility = "visible";
         console.log("response error code", status);
+        console.log("error while loggin in", er.response);
         setError(errData);
       });
   };
