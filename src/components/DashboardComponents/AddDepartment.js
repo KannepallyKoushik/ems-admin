@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import "../../App.css";
 import "./Styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from "../../axios";
 import Main from "./Main";
@@ -45,11 +46,15 @@ const AddDepartment = () => {
         const data = res.data;
         const status = res.status;
         console.log(status);
-        alert(data);
+        toast.success(data);
+        setInputs({
+          deptName: "",
+        });
       })
       .catch((err) => {
         const status = err.response.data;
         console.log(status);
+        toast.error(status);
       });
   };
 
@@ -65,13 +70,13 @@ const AddDepartment = () => {
     }
   };
 
-  function Department() {
+  const Department = () => {
     return (
       <div class="dept-component">
         <form>
           <CssBaseline />
           <Main logout={logout} className="navbar" />
-
+          <ToastContainer />
           <Container className="boxed" maxWidth="md">
             <br></br>
             <br></br>
@@ -100,9 +105,9 @@ const AddDepartment = () => {
         </form>
       </div>
     );
-  }
+  };
 
-  return authorised ? <Department /> : <NotAdmin />;
+  return authorised ? Department() : <NotAdmin />;
 };
 
 export default AddDepartment;

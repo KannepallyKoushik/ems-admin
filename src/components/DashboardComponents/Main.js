@@ -268,13 +268,23 @@ class MiniDrawer extends React.Component {
               unmountOnExit
             >
               <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to="/dashboard/submitDeadline"
+                >
                   <ListItemIcon>
                     <ArrowForwardIosIcon />
                   </ListItemIcon>
                   <ListItemText primary="Submission Deadline" />
                 </ListItem>
-                <ListItem button className={classes.nested}>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to="/dashboard/requestFeedback"
+                >
                   <ListItemIcon>
                     <ArrowForwardIosIcon />
                   </ListItemIcon>

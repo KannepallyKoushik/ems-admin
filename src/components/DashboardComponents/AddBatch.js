@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import "../../App.css";
 import "./Styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from "../../axios";
 import Main from "./Main";
@@ -60,11 +61,12 @@ const AddBatch = () => {
         const data = res.data;
         const status = res.status;
         console.log(status);
-        alert(data);
+        toast.success(data);
       })
       .catch((err) => {
         const status = err.response.data;
         console.log(status);
+        toast.error(status);
       });
 
     setBatchIn(new Date());
@@ -77,6 +79,7 @@ const AddBatch = () => {
         <form>
           <CssBaseline />
           <Main logout={logout} />
+          <ToastContainer />
           <Container className="boxed" maxWidth="md">
             <br></br>
             <br></br>

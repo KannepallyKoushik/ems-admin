@@ -5,9 +5,9 @@ import "../../App.css";
 import "./Styles.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import axios from "../../axios";
 import Main from "./Main";
 import NotAdmin from "./NotAdmin";
+import axios from "../../axios";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from "@material-ui/core/Button";
@@ -22,29 +22,49 @@ import { AuthContext } from "../../Contexts/AuthContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { AuthorizationContext } from "../../Contexts/AuthorizationContext";
 
-const AddFaculty = () => {
+const AddCourse = () => {
   const [authorised, setauthorised] = useContext(AuthorizationContext);
   const [, setIsAuthenticated] = useContext(AuthContext);
   const [, setUser] = useContext(UserContext);
 
-  const [dept, setDept] = useState([]);
-  const [inputs, setInputs] = useState({
-    facName: "",
-    depID: "",
-    facEmail: "",
-  });
+  const [branch, setBranch] = useState([]);
 
-  const { facName, depID, facEmail } = inputs;
-
-  const handleChange = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  const [courseCode, setCourseCode] = useState("");
+  const handleChangeCode = (event) => {
+    setCourseCode(event.target.value);
   };
 
-  const submitForm = (e) => {
+  const [courseName, setCourseName] = useState("");
+  const handleChangeName = (event) => {
+    setCourseName(event.target.value);
+  };
+
+  const [description, setDescription] = useState("");
+  const handleDescChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const [courseCredit, setCourseCredit] = React.useState("");
+  const handleCredit = (event) => {
+    setCourseCredit(event.target.value);
+  };
+
+  const [depID, setDepID] = useState("");
+  const handleChangeBranch = (event) => {
+    setDepID(event.target.value);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const body = inputs;
+    const body = {
+      courseCode: courseCode,
+      courseName: courseName,
+      cDescription: description,
+      courseCredit: courseCredit,
+      depID: depID,
+    };
     axios
-      .post("/dashboard/admin/addFaculty", body, {
+      .post("/dashboard/admin/addCourse", body, {
         headers: {
           token: localStorage.token,
           "Content-type": "application/json",
@@ -55,6 +75,11 @@ const AddFaculty = () => {
         const status = res.status;
         console.log(status);
         toast.success(data);
+        setCourseCode("");
+        setCourseName("");
+        setDescription("");
+        setCourseCredit("");
+        setDepID("");
       })
       .catch((err) => {
         const status = err.response.data;
@@ -62,12 +87,7 @@ const AddFaculty = () => {
         toast.error(status);
       });
 
-    setInputs({
-      facName: "",
-      depID: "",
-      facEmail: "",
-    });
-    getData();
+    getBranchData();
   };
 
   const logout = async (e) => {
@@ -82,60 +102,84 @@ const AddFaculty = () => {
     }
   };
 
-  const Faculty = () => {
+  const Course = () => {
     return (
-      <form>
-        <div class="faculty-component">
+      <div class="course-component">
+        <form>
           <CssBaseline />
           <Main logout={logout} />
           <ToastContainer />
           <Container className="boxed" maxWidth="md">
             <br></br>
             <br></br>
-            <h1 align="center">Faculty Details</h1>
+            <h1 align="center">Course Details</h1>
             <br></br>
             <h5 align="center">
-              <em>Give Details of New Faculty</em>
+              <em>Give Details of New Course</em>
             </h5>
             <Grid xs={12} container direction="column" className="batch">
-              <h6>Faculty Name:</h6>
+              <h6>Course Code:</h6>
               <TextField
-                id="facName"
-                name="facName"
-                key="facName"
-                value={facName}
-                onChange={handleChange}
-                placeholder="Full Name"
+                id="courseid"
+                key="courseid"
+                placeholder="Ex: TH123"
                 margin="large"
                 variant="outlined"
-                autoComplete="off"
+                value={courseCode}
+                onChange={handleChangeCode}
               />
               <br></br>
-              <br></br>
-              <h6>Faculty E-mail:</h6>
+
+              <h6>Course Name:</h6>
               <TextField
-                id="facEmail"
-                name="facEmail"
-                value={facEmail}
-                onChange={handleChange}
-                placeholder="abc@example.com"
+                id="coursename"
+                key="coursename"
+                placeholder="Ex: Thermodynamics"
                 margin="large"
                 variant="outlined"
-                autoComplete="off"
+                value={courseName}
+                onChange={handleChangeName}
               />
               <br></br>
+
+              <h6>Course Description:</h6>
+              <TextField
+                id="outlined-multiline-static"
+                multiline
+                rows={2}
+                placeholder="Event Description for Students"
+                variant="outlined"
+                value={description}
+                onChange={handleDescChange}
+              />
+              <br></br>
+
+              <InputLabel id="credits">
+                <h6>Credits:</h6>
+              </InputLabel>
+              <Select
+                labelId="credit"
+                id="credit"
+                value={courseCredit}
+                onChange={handleCredit}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+
               <br></br>
               <InputLabel id="branch">
                 <h6>Department</h6>
               </InputLabel>
               <Select
-                labelId="department"
-                id="depID"
-                name="depID"
+                labelId="branch"
+                id="branch"
                 value={depID}
-                onChange={handleChange}
+                onChange={handleChangeBranch}
               >
-                {dept.map(({ dep_id, dep_name }) => {
+                {branch.map(({ dep_id, dep_name }) => {
                   return (
                     <MenuItem key={dep_id} value={dep_id}>
                       {dep_name}
@@ -150,29 +194,28 @@ const AddFaculty = () => {
                 variant="contained"
                 color="primary"
                 className="submitbutton"
-                onClick={submitForm}
+                onClick={handleSubmit}
               >
-                Add Faculty
+                Add Course
               </Button>
             </Container>
             <br></br>
             <br></br>
           </Container>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   };
 
-  const getData = async () => {
+  const getBranchData = async () => {
     axios
-      .get("dashboard/getDept", {
+      .get("/dashboard/getDept", {
         headers: { token: localStorage.token },
         "Content-type": "application/json",
       })
       .then((res) => {
         const parseRes = res.data;
-        console.log(parseRes);
-        setDept(parseRes);
+        setBranch(parseRes);
       })
       .catch((er) => {
         console.log(er.response.data);
@@ -180,10 +223,10 @@ const AddFaculty = () => {
   };
 
   useEffect(() => {
-    getData();
+    getBranchData();
   }, []);
 
-  return authorised ? Faculty() : <NotAdmin />;
+  return authorised ? Course() : <NotAdmin />;
 };
 
-export default AddFaculty;
+export default AddCourse;

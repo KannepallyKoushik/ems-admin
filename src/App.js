@@ -24,6 +24,8 @@ import ForgotPass from "./components/AuthComponents/ForgotPass";
 import VerifyEmail from "./components/AuthComponents/VerifyEmail";
 import AddFaculty from "./components/DashboardComponents/AddFaculty";
 import AddBatch from "./components/DashboardComponents/AddBatch";
+import AddCourse from "./components/DashboardComponents/AddCourse";
+import RequestFeedback from "./components/DashboardComponents/RequestFeedback";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
@@ -128,6 +130,28 @@ function App() {
                 render={() =>
                   isAuthenticated ? (
                     <AddBatch />
+                  ) : (
+                    <Redirect to="/admin/login" />
+                  )
+                }
+              />
+              <Route
+                exact
+                path="/dashboard/addCourse"
+                render={() =>
+                  isAuthenticated ? (
+                    <AddCourse />
+                  ) : (
+                    <Redirect to="/admin/login" />
+                  )
+                }
+              />
+              <Route
+                exact
+                path="/dashboard/requestFeedback"
+                render={() =>
+                  isAuthenticated ? (
+                    <RequestFeedback />
                   ) : (
                     <Redirect to="/admin/login" />
                   )
