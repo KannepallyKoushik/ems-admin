@@ -143,22 +143,27 @@ class MiniDrawer extends React.Component {
 
   handleClickPublish = () => {
     this.setState({ openNestedPublish: !this.state.openNestedPublish });
+    this.setState({ open: true });
   };
 
   handleClickDept = () => {
     this.setState({ openNestedDept: !this.state.openNestedDept });
+    this.setState({ open: true });
   };
 
   handleClickFaculty = () => {
     this.setState({ openNestedFaculty: !this.state.openNestedFaculty });
+    this.setState({ open: true });
   };
 
   handleClickCourse = () => {
     this.setState({ openNestedCourse: !this.state.openNestedCourse });
+    this.setState({ open: true });
   };
 
   handleClickBatch = () => {
     this.setState({ openNestedBatch: !this.state.openNestedBatch });
+    this.setState({ open: true });
   };
 
   render() {
@@ -233,7 +238,13 @@ class MiniDrawer extends React.Component {
                 open={open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Change Password</MenuItem>
+                <MenuItem
+                  onClick={this.handleClose}
+                  component={Link}
+                  to="/dashboard/setPassword"
+                >
+                  Change Password
+                </MenuItem>
                 <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
