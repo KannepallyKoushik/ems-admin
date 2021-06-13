@@ -64,13 +64,21 @@ const AddBatch = () => {
         toast.success(data);
       })
       .catch((err) => {
-        const status = err.response.data;
-        console.log(status);
-        toast.error(status);
+        handleError(err);
       });
 
     setBatchIn(new Date());
     setBatchOut(new Date());
+  };
+
+  const handleError = (err) => {
+    console.log(err.response.data);
+    toast.error(err.response.data);
+    if (err.response.status === 403) {
+      setTimeout(function () {
+        logout();
+      }, 5000);
+    }
   };
 
   function Batch() {

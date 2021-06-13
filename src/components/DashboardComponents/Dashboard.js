@@ -85,13 +85,15 @@ const Dashboard = () => {
         })
         .catch((er) => {
           console.log(er.response);
-          setauthorised(false);
-          localStorage.removeItem("token");
-          setUser("");
-          setauthorised(false);
-          setTimeout(function () {
-            setIsAuthenticated(false);
-          }, 2000);
+          toast.error(er.response.data);
+          if (er.response.status === 403) {
+            localStorage.removeItem("token");
+            setUser("");
+            setauthorised(false);
+            setTimeout(function () {
+              setIsAuthenticated(false);
+            }, 3000);
+          }
         });
     };
     getData();

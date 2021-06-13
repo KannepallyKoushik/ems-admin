@@ -82,12 +82,20 @@ const AddCourse = () => {
         setDepID("");
       })
       .catch((err) => {
-        const status = err.response.data;
-        console.log(status);
-        toast.error(status);
+        handleError(err);
       });
 
     getBranchData();
+  };
+
+  const handleError = (err) => {
+    console.log(err.response.data);
+    toast.error(err.response.data);
+    if (err.response.status === 403) {
+      setTimeout(function () {
+        logout();
+      }, 5000);
+    }
   };
 
   const logout = async (e) => {
@@ -218,7 +226,7 @@ const AddCourse = () => {
         setBranch(parseRes);
       })
       .catch((er) => {
-        console.log(er.response.data);
+        handleError(er);
       });
   };
 
