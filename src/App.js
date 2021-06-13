@@ -27,6 +27,7 @@ import AddBatch from "./components/DashboardComponents/AddBatch";
 import AddCourse from "./components/DashboardComponents/AddCourse";
 import RequestFeedback from "./components/DashboardComponents/RequestFeedback";
 import SetPassword from "./components/DashboardComponents/SetPassword";
+import PublishDeadline from "./components/DashboardComponents/PublishDeadline";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext);
@@ -164,6 +165,17 @@ function App() {
                 render={() =>
                   isAuthenticated ? (
                     <SetPassword />
+                  ) : (
+                    <Redirect to="/admin/login" />
+                  )
+                }
+              />
+              <Route
+                exact
+                path="/dashboard/submitDeadline"
+                render={() =>
+                  isAuthenticated ? (
+                    <PublishDeadline />
                   ) : (
                     <Redirect to="/admin/login" />
                   )

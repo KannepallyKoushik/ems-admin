@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import DayPicker from "react-day-picker";
 
 import "react-day-picker/lib/style.css";
 import "../../App.css";
 import "./Styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from "../../axios";
 import Main from "./Main";
@@ -38,6 +39,7 @@ const Dashboard = () => {
       <div className="AdminDash">
         <CssBaseline />
         <Main logout={logout} className="navbar" />
+        <ToastContainer />
         <h4 class="amma-quote">
           <i>
             "ENLIGHTENMENT means the ability to RECOGNISE ONESELF in ALL living
