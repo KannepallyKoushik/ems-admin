@@ -146,7 +146,7 @@ const RequestFeedback = () => {
               <br></br>
               <br></br>
 
-              <InputLabel id="branch">Select Branch</InputLabel>
+              <InputLabel id="branch1">Select Branch</InputLabel>
               <Select
                 labelId="branch"
                 id="branch"
@@ -164,7 +164,7 @@ const RequestFeedback = () => {
               <br></br>
               <br></br>
 
-              <InputLabel id="batch">Select Batch</InputLabel>
+              <InputLabel id="batch1">Select Batch</InputLabel>
               <Select
                 labelId="batch"
                 id="batch"
@@ -182,6 +182,7 @@ const RequestFeedback = () => {
             </Grid>
             <Container className="button" align="center" maxWidth="sm">
               <Button
+                id="feedsubmit"
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}

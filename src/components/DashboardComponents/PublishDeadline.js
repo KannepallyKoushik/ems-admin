@@ -197,7 +197,7 @@ const PublishDeadline = () => {
                   direction="column"
                   style={{ paddingRight: "7px" }}
                 >
-                  <InputLabel id="batch">Select Batch</InputLabel>
+                  <InputLabel id="batch1">Select Batch</InputLabel>
                   <Select
                     labelId="batch"
                     id="batch"
@@ -221,7 +221,7 @@ const PublishDeadline = () => {
                   direction="column"
                   style={{ paddingLeft: "7px" }}
                 >
-                  <InputLabel id="branch">Select Branch</InputLabel>
+                  <InputLabel id="branch1">Select Branch</InputLabel>
                   <Select
                     labelId="branch"
                     id="branch"
@@ -329,7 +329,7 @@ const PublishDeadline = () => {
 
                     <Grid xs={12} container direction="column" align="center">
                       <br></br>
-                      <InputLabel id="demolink">Demo Lecture Link:</InputLabel>
+                      <InputLabel id="demolink1">Demo Lecture Link:</InputLabel>
                       <TextField
                         id="demolink"
                         rows={1}
@@ -343,6 +343,7 @@ const PublishDeadline = () => {
                     <Grid container>
                       <Grid xs={6} container direction="column">
                         <Button
+                        id="addcol"
                           color="primary"
                           onClick={() => handleAddFields()}
                         >
@@ -350,7 +351,8 @@ const PublishDeadline = () => {
                         </Button>
                       </Grid>
                       <Grid xs={6} container align="center" direction="column">
-                        <Button
+                        <Button 
+                        id="removecol"
                           color="secondary"
                           onClick={() => handleRemoveFields(index)}
                         >
@@ -366,6 +368,7 @@ const PublishDeadline = () => {
 
             <Container className="button" align="center" maxWidth="sm">
               <Button
+              id="feedsubmit"
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}

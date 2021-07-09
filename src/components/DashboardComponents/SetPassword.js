@@ -125,6 +125,7 @@ const SetPassword = () => {
             </Grid>
             <Container className="button" align="center" maxWidth="sm">
               <Button
+              id="passubmit"
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}

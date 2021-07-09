@@ -239,6 +239,7 @@ class MiniDrawer extends React.Component {
                 onClose={this.handleClose}
               >
                 <MenuItem
+                  id="changepassword"
                   onClick={this.handleClose}
                   component={Link}
                   to="/dashboard/setPassword"
@@ -266,7 +267,7 @@ class MiniDrawer extends React.Component {
         >
           <div className={classes.toolbar} />
           <List>
-            <ListItem button onClick={this.handleClickPublish}>
+            <ListItem id="publish" button onClick={this.handleClickPublish}>
               <ListItemIcon>
                 <PublishIcon />
               </ListItemIcon>
@@ -278,7 +279,7 @@ class MiniDrawer extends React.Component {
               timeout="auto"
               unmountOnExit
             >
-              <List component="div" disablePadding>
+              <List id="subdeadline" component="div" disablePadding>
                 <ListItem
                   button
                   className={classes.nested}
@@ -290,7 +291,7 @@ class MiniDrawer extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="Submission Deadline" />
                 </ListItem>
-                <ListItem
+                <ListItem id="reqfeedback"
                   button
                   className={classes.nested}
                   component={Link}
@@ -304,9 +305,9 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem button onClick={this.handleClickDept}>
+            <ListItem id="deptlink" button onClick={this.handleClickDept} >
               <ListItemIcon>
-                <AddBoxIcon />
+                <AddBoxIcon  />
               </ListItemIcon>
               <ListItemText primary="Department" />
               {this.state.openNestedDept ? <ExpandLess /> : <ExpandMore />}
@@ -317,7 +318,7 @@ class MiniDrawer extends React.Component {
               timeout="auto"
               unmountOnExit
             >
-              <List component="div" disablePadding>
+              <List id="addepartment" component="div" disablePadding>
                 <ListItem
                   className={classes.nested}
                   button
@@ -333,7 +334,7 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem button onClick={this.handleClickFaculty}>
+            <ListItem id="addfaclink" button onClick={this.handleClickFaculty}>
               <ListItemIcon>
                 <AccountCircle />
               </ListItemIcon>
@@ -345,7 +346,7 @@ class MiniDrawer extends React.Component {
               timeout="auto"
               unmountOnExit
             >
-              <List component="div" disablePadding>
+              <List id="addfaculty" component="div" disablePadding>
                 <ListItem
                   className={classes.nested}
                   button
@@ -361,7 +362,7 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem button onClick={this.handleClickBatch}>
+            <ListItem id="addbatlink" button onClick={this.handleClickBatch}>
               <ListItemIcon>
                 <GroupIcon />
               </ListItemIcon>
@@ -373,7 +374,7 @@ class MiniDrawer extends React.Component {
               timeout="auto"
               unmountOnExit
             >
-              <List component="div" disablePadding>
+              <List id="addbat" component="div" disablePadding>
                 <ListItem
                   className={classes.nested}
                   button
@@ -389,7 +390,7 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem button onClick={this.handleClickCourse}>
+            <ListItem id="addcourselink" button onClick={this.handleClickCourse}>
               <ListItemIcon>
                 <CollectionsBookmarkIcon />
               </ListItemIcon>
@@ -401,7 +402,7 @@ class MiniDrawer extends React.Component {
               timeout="auto"
               unmountOnExit
             >
-              <List component="div" disablePadding>
+              <List id="addcourse" component="div" disablePadding>
                 <ListItem
                   className={classes.nested}
                   button

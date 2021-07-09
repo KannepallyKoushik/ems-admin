@@ -158,6 +158,7 @@ const AddFaculty = () => {
                 variant="contained"
                 color="primary"
                 className="submitbutton"
+                id="facsubmit"
                 onClick={submitForm}
               >
                 Add Faculty
