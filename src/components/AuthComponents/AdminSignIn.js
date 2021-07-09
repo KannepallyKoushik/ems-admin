@@ -137,6 +137,7 @@ const AdminSignIn = () => {
               type="submit"
               fullWidth
               variant="contained"
+              id="adminsubmit"
               color="primary"
               className={classes.submit}
             >

@@ -103,6 +103,7 @@ const AddBatch = () => {
                   disableFuture
                   openTo="year"
                   views={["year"]}
+                  id="bi"
                   value={batchIn}
                   onChange={(date) => setBatchIn(date)}
                   renderInput={(props) => <TextField {...props} />}
@@ -112,6 +113,7 @@ const AddBatch = () => {
                 <br></br>
                 <InputLabel id="batchout">Batch out</InputLabel>
                 <DatePicker
+                  id="bo"
                   openTo="year"
                   views={["year"]}
                   value={batchOut}
@@ -125,6 +127,7 @@ const AddBatch = () => {
               <Button
                 variant="contained"
                 color="primary"
+                id="batchsubmit"
                 className="submitbutton"
                 onClick={submitForm}
               >

@@ -178,7 +178,7 @@ const AddCourse = () => {
               </Select>
 
               <br></br>
-              <InputLabel id="branch">
+              <InputLabel id="branch1">
                 <h6>Department</h6>
               </InputLabel>
               <Select
@@ -199,6 +199,7 @@ const AddCourse = () => {
             <Container className="button" align="center" maxWidth="sm">
               <br></br>
               <Button
+                id="coursesubmit"
                 variant="contained"
                 color="primary"
                 className="submitbutton"

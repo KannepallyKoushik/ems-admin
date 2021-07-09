@@ -104,6 +104,7 @@ const AddDepartment = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
+                id="adddept"
               >
                 Add Department
               </Button>
