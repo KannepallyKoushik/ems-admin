@@ -34,7 +34,7 @@ const Dashboard = () => {
     }
   };
 
-  function AdminDash() {
+  const AdminDash = () => {
     return (
       <div className="AdminDash">
         <CssBaseline />
@@ -69,7 +69,7 @@ const Dashboard = () => {
         </div>
       </div>
     );
-  }
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -99,7 +99,7 @@ const Dashboard = () => {
     getData();
   }, [setUser, setIsAuthenticated, setauthorised]);
 
-  return authorised ? <AdminDash /> : <NotAdmin />;
+  return authorised ? AdminDash() : <NotAdmin />;
 };
 
 export default Dashboard;

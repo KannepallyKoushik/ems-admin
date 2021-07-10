@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -343,7 +344,7 @@ const PublishDeadline = () => {
                     <Grid container>
                       <Grid xs={6} container direction="column">
                         <Button
-                        id="addcol"
+                          id="addcol"
                           color="primary"
                           onClick={() => handleAddFields()}
                         >
@@ -351,8 +352,8 @@ const PublishDeadline = () => {
                         </Button>
                       </Grid>
                       <Grid xs={6} container align="center" direction="column">
-                        <Button 
-                        id="removecol"
+                        <Button
+                          id="removecol"
                           color="secondary"
                           onClick={() => handleRemoveFields(index)}
                         >
@@ -368,7 +369,7 @@ const PublishDeadline = () => {
 
             <Container className="button" align="center" maxWidth="sm">
               <Button
-              id="feedsubmit"
+                id="feedsubmit"
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
