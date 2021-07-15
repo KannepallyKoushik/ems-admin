@@ -291,7 +291,8 @@ class MiniDrawer extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="Submission Deadline" />
                 </ListItem>
-                <ListItem id="reqfeedback"
+                <ListItem
+                  id="reqfeedback"
                   button
                   className={classes.nested}
                   component={Link}
@@ -305,9 +306,9 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem id="deptlink" button onClick={this.handleClickDept} >
+            <ListItem id="deptlink" button onClick={this.handleClickDept}>
               <ListItemIcon>
-                <AddBoxIcon  />
+                <AddBoxIcon />
               </ListItemIcon>
               <ListItemText primary="Department" />
               {this.state.openNestedDept ? <ExpandLess /> : <ExpandMore />}
@@ -390,7 +391,11 @@ class MiniDrawer extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem id="addcourselink" button onClick={this.handleClickCourse}>
+            <ListItem
+              id="addcourselink"
+              button
+              onClick={this.handleClickCourse}
+            >
               <ListItemIcon>
                 <CollectionsBookmarkIcon />
               </ListItemIcon>
@@ -417,13 +422,6 @@ class MiniDrawer extends React.Component {
                 </ListItem>
               </List>
             </Collapse>
-
-            <ListItem button key={"View Student Preferences"}>
-              <ListItemIcon>
-                <PageviewIcon />
-              </ListItemIcon>
-              <ListItemText primary={"View Student Preferences"} />
-            </ListItem>
           </List>
           <Divider />
         </Drawer>
