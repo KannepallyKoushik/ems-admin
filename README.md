@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# Elective Management System
+The EMS portal is a usefriendly tool to manage Student's elective course submission for each semester. The portal has a single Super Admin and a user which is ofcourse the Student.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+The Admin is provided with the following functionalities :
 
-## Available Scripts
+* Publishing Notifications.
+ -Publishing new notifications, that will be visilbe to Student.
 
-In the project directory, you can run:
+* Update Batches
+ -Add new Batches to the portal.
 
+* Update Courses
+ -Add new Courses to the portal.
+
+* Update Faculties
+ -Add new Faculties to the portal.
+
+* Update Departments
+ -Add new Depatments to the portal.
+
+* View Student Preferences
+ -Once the Student submit his/her elective preferences, it is made visible to Admin.
+
+The User or Student is provided with the following features :
+
+* Course List
+ -Various courses offered in a particular semester is displayed along with the teaching faculty.
+
+* Notifications
+ -Various notifications published by the Admin is visible here, like Deadline for Elective submission.
+
+## Pre-requisites
+* Node.js, PostgreSQL.
+
+To install all the dependencies, you can run this command inside the project directory:
+### `npm install`
+
+Setting up the project
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in the development mode.
+Open http://localhost:3003 to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Install the following projects
+* [emsfrontend] (https://github.com/KannepallyKoushik/emsfrontend.git)
+* [EMSbackend] (https://github.com/KannepallyKoushik/EMSbackend.git)
